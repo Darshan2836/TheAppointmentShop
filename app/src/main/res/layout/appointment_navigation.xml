@@ -9,16 +9,24 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/appointmenttool"
         android:theme="?attr/actionBarTheme"
         android:layout_alignParentTop="true"/>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/rr1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_below="@+id/toolbar2">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
     <TextView
         android:id="@+id/upcomingappointments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Upcoming Appointments"
-        android:layout_below="@+id/toolbar2"
         android:textAlignment="center"
         android:textSize="15dp"
         android:textColor="@color/black"
@@ -26,18 +34,19 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
     </TextView>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclecurrentappointment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/upcomingappointments">
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycleupcomingappointment"
+            android:layout_width="match_parent"
+            android:background="#E7E7E7"
+            android:layout_below="@id/upcomingappointments"
+            android:layout_height="wrap_content">
+        </androidx.recyclerview.widget.RecyclerView>
     <TextView
         android:id="@+id/previousappointments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Previous Appointments"
-        android:layout_below="@+id/recyclecurrentappointment"
+        android:layout_below="@+id/recycleupcomingappointment"
         android:textAlignment="center"
         android:textSize="15dp"
         android:textColor="@color/black"
@@ -48,7 +57,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclepreviousappointment"
         android:layout_width="match_parent"
+        android:background="#E7E7E7"
         android:layout_height="wrap_content"
         android:layout_below="@+id/previousappointments">
     </androidx.recyclerview.widget.RecyclerView>
+        </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

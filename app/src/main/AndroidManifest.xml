@@ -10,7 +10,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.appointment.AppointmentBooking"></activity>
+        <activity android:name="com.example.appointmentnav.AppointmentBill"></activity>
+        <activity android:name="com.example.appointment.AppointmentBooking" />
         <activity android:name="com.example.homenav.RecyclerviewHolderEg" />
         <activity android:name="com.example.homenav.NoInternet" />
         <activity android:name=".PhoneNumber" />

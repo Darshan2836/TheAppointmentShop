@@ -47,17 +47,13 @@ public class RecyclerviewHolderEg extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(RecyclerviewHolderEg.this, AppointmentBooking.class);
                 String timedata = bundle.getString("timetext");
-                String namedata = bundle.getString("shopnametext");
                 String seatdata = bundle.getString("seatstext");
-                String addressdata = bundle.getString("addresstext");
-                String localitydata = bundle.getString("localitytext");
+                String uiddata = bundle.getString("shopuid");
+                String shopnamedata = bundle.getString("shopnametext");
                 intent.putExtra("time",timedata);
-                intent.putExtra("nameshop",namedata);
                 intent.putExtra("seat",seatdata);
-                intent.putExtra("address",addressdata);
-                intent.putExtra("locality",localitydata);
-                intent.putExtra("uriimage",bundle.getString("imageuri"));
-                intent.putExtra("phone",bundle.getString("numbertext"));
+                intent.putExtra("shopuid",uiddata);
+                intent.putExtra("nameshop",shopnamedata);
                 startActivity(intent);
 
             }

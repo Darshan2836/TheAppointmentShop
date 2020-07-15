@@ -1,19 +1,18 @@
 package com.example.appointment;
 
 public class BookedAppointmentInfo {
-    String name,locality,address,time,image,number,date;
+    private String date, time, shopuid, appointmentinfo;
+    private int bookingid;
 
-    public BookedAppointmentInfo() {
+    public BookedAppointmentInfo(String date, String time, String shopuid, String appointmentinfo, int bookingid) {
+        this.date = date;
+        this.time = time;
+        this.shopuid = shopuid;
+        this.appointmentinfo = appointmentinfo;
+        this.bookingid = bookingid;
     }
 
-    public BookedAppointmentInfo(String name, String locality, String address, String time, String image, String number,String date) {
-        this.name = name;
-        this.locality = locality;
-        this.address = address;
-        this.time = time;
-        this.image = image;
-        this.number = number;
-        this.date = date;
+    public BookedAppointmentInfo() {
     }
 
     public String getDate() {
@@ -24,30 +23,6 @@ public class BookedAppointmentInfo {
         this.date = date;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLocality() {
-        return locality;
-    }
-
-    public void setLocality(String locality) {
-        this.locality = locality;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getTime() {
         return time;
     }
@@ -56,19 +31,27 @@ public class BookedAppointmentInfo {
         this.time = time;
     }
 
-    public String getImage() {
-        return image;
+    public String getShopuid() {
+        return shopuid;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setShopuid(String shopuid) {
+        this.shopuid = shopuid;
     }
 
-    public String getNumber() {
-        return number;
+    public String getAppointmentinfo() {
+        return appointmentinfo;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setAppointmentinfo(String appointmentinfo) {
+        this.appointmentinfo = appointmentinfo;
+    }
+
+    public int getBookingid() {
+        return bookingid;
+    }
+
+    public void setBookingid(int bookingid) {
+        this.bookingid = bookingid;
     }
 }

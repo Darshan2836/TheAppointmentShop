@@ -10,20 +10,21 @@
         android:id="@+id/toolbar"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/barbertool"
         android:theme="?attr/actionBarTheme">
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
         android:layout_below="@+id/toolbar">
 
         <RelativeLayout
             android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
             <ImageView
@@ -63,7 +64,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="490dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/linerlay1"
                     android:orientation="vertical"
                     android:padding="4dp"></androidx.recyclerview.widget.RecyclerView>

@@ -75,8 +75,9 @@ public class home extends Fragment {
         ref.keepSynced(true);
 
         //recycler view
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
 
         //array list
         arrayList = new ArrayList<shopuserinfo>();
@@ -98,7 +99,7 @@ public class home extends Fragment {
                 holder.shopname.setText(model.getShopname());
                 holder.locality.setText(model.getLocality());
                 holder.time.setText(model.getTime());
-                imguri = model.getImage().toString();
+                imguri = model.getImage();
                 Picasso.get().load(imguri).resize(100,100).into(holder.image);
                 dialog.dismiss();
                 final String finalImguri = imguri;
@@ -113,8 +114,7 @@ public class home extends Fragment {
                         intent.putExtra("timetext",model.getTime());
                         intent.putExtra("shopimage",model.getImage());
                         intent.putExtra("seatstext",model.getSeat());
-                        intent.putExtra("localitytext",model.getLocality());
-                        intent.putExtra("imageuri", finalImguri);
+                        intent.putExtra("shopuid",model.getUid());
                         startActivity(intent);
                     }
                 });

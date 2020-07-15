@@ -11,18 +11,19 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="138dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/border_shadow">
+        android:background="@drawable/rectangle2">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="138dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingTop="10dp"
             android:paddingRight="10dp"
-            android:paddingBottom="10dp">
+            android:paddingBottom="10dp"
+            android:background="@drawable/rectangle2">
 
 
             <LinearLayout
@@ -39,7 +40,7 @@
                         android:id="@+id/shopname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/opensansregular"
+                        android:fontFamily="@font/bellerose"
                         android:text="Royal Gold"
                         android:textColor="@color/black"
                         android:textSize="25dp">
@@ -50,10 +51,10 @@
                         android:id="@+id/locality"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
                         android:fontFamily="@font/opensansregular"
                         android:text="Akurdi"
-                        android:textColor="#858585"
+                        android:textColor="@color/green"
                         android:textSize="15dp">
 
                     </TextView>
@@ -70,7 +71,8 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/opensansbold"
                             android:text="Shop Time: "
-                            android:textSize="15dp">
+                            android:textSize="12dp"
+                            android:textColor="@color/black">
 
                         </TextView>
 
@@ -82,39 +84,7 @@
                             android:fontFamily="@font/robotoregular"
                             android:text=" 10:00 AM - 02:00 PM"
                             android:textColor="#858585"
-                            android:textSize="15dp">
-
-                        </TextView>
-
-                    </LinearLayout>
-
-                    <!--status-->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/opensansbold"
-                            android:text="Status :"
-                            android:textSize="15dp">
-
-                        </TextView>
-
-
-                        <TextView
-                            android:id="@+id/shopstatus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/robotobold"
-                            android:text=" Open"
-                            android:textColor="@color/green"
-                            android:textSize="15dp">
+                            android:textSize="12dp">
 
                         </TextView>
 

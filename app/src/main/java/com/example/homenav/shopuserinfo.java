@@ -3,7 +3,15 @@ package com.example.homenav;
 import android.net.Uri;
 
 public class shopuserinfo {
-    private String shopname,locality,time,image,address,number,seat;
+    private String shopname,locality,time,image,address,number,seat,uid;
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
     public String getAddress() {
         return address;
@@ -64,7 +72,7 @@ public class shopuserinfo {
         this.time = time;
     }
 
-    public shopuserinfo(String shopname, String locality, String time,String image,String address,String number,String seat) {
+    public shopuserinfo(String shopname, String locality, String time,String image,String address,String number,String seat,String uid) {
         this.shopname = shopname;
         this.locality = locality;
         this.time = time;
@@ -72,5 +80,6 @@ public class shopuserinfo {
         this.address = address;
         this.number = number;
         this.seat = seat;
+        this.uid = uid;
     }
 }
