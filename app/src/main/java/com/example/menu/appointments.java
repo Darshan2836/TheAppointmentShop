@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appointment.Adaptar;
 import com.example.appointmentnav.AppointmentBill;
 import com.example.appointmentnav.BookedUserInfo;
 import com.example.appointmentnav.FireBaseViewHolderUpcomingAppointment;
@@ -49,6 +52,7 @@ public class appointments extends Fragment {
     private FirebaseRecyclerAdapter<BookedUserInfo, FireBaseViewHolderUpcomingAppointment> adapter;
     private String shopname;
     private ProgressDialog progressDialog;
+    private TextView emptyview;
     @Override
     public void onStart() {
         super.onStart();
@@ -69,6 +73,9 @@ public class appointments extends Fragment {
 
         //find view by ID
         recyclerView = (RecyclerView) RootView.findViewById(R.id.recycleupcomingappointment);
+        emptyview = (TextView) RootView.findViewById(R.id.empty_view);
+
+
 
         //Auth instance
         mAuth = FirebaseAuth.getInstance();
@@ -92,6 +99,7 @@ public class appointments extends Fragment {
         //array list
         arrayList = new ArrayList<BookedUserInfo>();
         options = new FirebaseRecyclerOptions.Builder<BookedUserInfo>().setQuery(ref,BookedUserInfo.class).build();
+
 
 
         //adapter
@@ -130,10 +138,11 @@ public class appointments extends Fragment {
 
                     @Override
                     public void onCancelled(DatabaseError error) {
+                        progressDialog.dismiss();
                         // Failed to read value
                     }
                 });
-
+                progressDialog.dismiss();
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -154,6 +163,7 @@ public class appointments extends Fragment {
                 return new FireBaseViewHolderUpcomingAppointment(LayoutInflater.from(getActivity()).inflate(R.layout.cardview_appointment,parent,false));
             }
         };
+
 
 
 

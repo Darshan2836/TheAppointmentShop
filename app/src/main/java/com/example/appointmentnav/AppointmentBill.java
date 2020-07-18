@@ -125,14 +125,6 @@ public class AppointmentBill extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Bundle args = new Bundle();
-                args.putString("bookingid",bookingidtext);
-                args.putString("shopname",shopnametext);
-                args.putString("customeruid",customeruid);
-                args.putString("date",datetext);
-                args.putString("appointmentinfo",appointmentinfo);
-
                 CustomDialogClass cdd = new CustomDialogClass(AppointmentBill.this,bookingidtext,shopnametext,customeruid,datetext,appointmentinfo);
                 cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 cdd.show();

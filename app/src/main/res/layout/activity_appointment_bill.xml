@@ -18,7 +18,7 @@
 
     <LinearLayout
         android:layout_width="347dp"
-        android:layout_height="390dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar4"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
@@ -85,7 +85,7 @@
                     android:layout_marginRight="30dp"
                     android:letterSpacing="0.05"
                     android:text="Shop no 128 , Ektanagar , Near Trinity High School , Akurdi , Pune , Pimpri-Chichwad , Maharashtra"
-                    android:textSize="11dp"></TextView>
+                    android:textSize="13dp"></TextView>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -168,6 +168,7 @@
             android:layout_height="35dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="50dp"
+            android:layout_marginBottom="25dp"
             android:background="@drawable/getdirections"></Button>
     </LinearLayout>
 

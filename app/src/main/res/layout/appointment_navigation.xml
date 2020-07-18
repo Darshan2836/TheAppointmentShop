@@ -34,19 +34,35 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
     </TextView>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleupcomingappointment"
-            android:layout_width="match_parent"
-            android:background="#E7E7E7"
-            android:layout_below="@id/upcomingappointments"
-            android:layout_height="wrap_content">
-        </androidx.recyclerview.widget.RecyclerView>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relativelayoutview"
+                android:layout_below="@id/upcomingappointments">
+                <TextView
+                    android:id="@+id/empty_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="30dp"
+                    android:visibility="gone"
+                    android:background="#E7E7E7"
+                    android:paddingBottom="30dp"
+                    android:text="---------No Upcoming Appointments---------"
+                    android:gravity="center">
+                </TextView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycleupcomingappointment"
+                    android:layout_width="match_parent"
+                    android:background="#E7E7E7"
+                    android:layout_height="match_parent">
+                </androidx.recyclerview.widget.RecyclerView>
+            </RelativeLayout>
     <TextView
         android:id="@+id/previousappointments"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Previous Appointments"
-        android:layout_below="@+id/recycleupcomingappointment"
+        android:layout_below="@+id/relativelayoutview"
         android:textAlignment="center"
         android:textSize="15dp"
         android:textColor="@color/black"

@@ -79,4 +79,6 @@ public class Adaptar extends RecyclerView.Adapter<Adaptar.ViewHolder> {
 
         }
     }
+
+
 }

@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.appointmentnav.AppointmentBill;
+import com.example.appointmentnav.CustomDialogClass;
 import com.example.login.R;
 import com.example.menu.MenuPage;
 import com.example.menu.home;
@@ -174,7 +176,11 @@ public class AppointmentBooking extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Common.CurrentTime != null) {
+
+                BookingConfirmedCustomDialog cdd = new BookingConfirmedCustomDialog(AppointmentBooking.this,shopname,finaldate,totalseats,customername,customernumber,uid,shopuid);
+                cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                cdd.show();
+                /*if(Common.CurrentTime != null) {
                     mref2 = FirebaseDatabase.getInstance().getReference("APPOINTMENTS").child(shopname).child(finaldate);
                     mref2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -260,7 +266,7 @@ public class AppointmentBooking extends AppCompatActivity {
                 else
                 {
                     Toast.makeText(AppointmentBooking.this,"Select a Time",Toast.LENGTH_LONG).show();
-                }
+                }*/
 
             }
         });

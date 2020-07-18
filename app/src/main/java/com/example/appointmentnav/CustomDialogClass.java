@@ -45,7 +45,7 @@ public class CustomDialogClass extends Dialog implements
         no.setOnClickListener(this);
 
          progressDialog = new ProgressDialog(c);
-        progressDialog.setMessage("Canceling Appointment...!!");
+         progressDialog.setMessage("Canceling Appointment...!!");
 
     }
 
@@ -53,6 +53,7 @@ public class CustomDialogClass extends Dialog implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_yes:
+                dismiss();
                 progressDialog.show();
                 DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("APPOINTMENTS").child(shopname).child(date).child(appointmentinfo);
                 mref.removeValue();

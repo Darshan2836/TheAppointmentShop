@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="30dp"
-    android:paddingBottom="30dp"
-    android:background="@drawable/rectangle5"
+    android:layout_width="fill_parent"
+    android:layout_height="80dp"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <TextView
@@ -13,25 +11,23 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:fontFamily="@font/opensansbold"
-        android:text="Do you want to cancel this Appointment ?"
+        android:text="Do you want to confirm this appointment ?"
         android:textColor="@color/black"
         android:textSize="15dp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingTop="10dp"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/btn_yes"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:background="@drawable/rectangle3"
+            android:background="@drawable/rectangle4"
             android:clickable="true"
             android:text="Yes"
             android:textColor="@color/white"
