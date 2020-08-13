@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -34,8 +35,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,20 +51,17 @@ public class AppointmentBooking extends AppCompatActivity {
     RecyclerView datalist;
     private  Bundle bundle;
     private List<String> timelist = new ArrayList<>();
+    private List<String> timelisttemp = new ArrayList<>();
     private List<String> availabilitylist = new ArrayList<>();
     private FloatingActionButton fab;
-    private String finaldate = null;
+    private String finaldate = null,defaultdate = null;
     private String customername,customernumber;
-    private DatabaseReference userData,mref,mref2,mref3,mref4;
+    private DatabaseReference mref;
     private FirebaseAuth mAuth;
     private String uid;
-    private String appointmentnumber;
+    private String shoptype;
     private int i,j;
-    private String count;
-    private Dialog epicDialog;
-    private Button success;
     private ProgressDialog progressDialog;
-    private int bookingId = 0 ;
 
 
     @Override
@@ -82,18 +82,18 @@ public class AppointmentBooking extends AppCompatActivity {
 
 
 
-        //Database conectivity
-        userData = FirebaseDatabase.getInstance().getReference("APPOINTMENTS");
-        mref = FirebaseDatabase.getInstance().getReference("USER").child(uid);
-        mref4 = FirebaseDatabase.getInstance().getReference("BOOKINGID");
-
-
         //get data from previous activity
         bundle = getIntent().getExtras();
         final String timestring = bundle.getString("time");
         final String shopname = bundle.getString("nameshop");
         final String totalseats = bundle.getString("seat");
         final String shopuid = bundle.getString("shopuid");
+          shoptype = bundle.getString("shoptype");
+
+
+        //Database conectivity
+        mref = FirebaseDatabase.getInstance().getReference("USER").child(uid);
+
 
         //Get name n number of customer
         // Read from the database
@@ -111,12 +111,12 @@ public class AppointmentBooking extends AppCompatActivity {
             }
         });
 
-        //Get Shop address and number
 
 
-        //time converstion
+        //get availability list
         try {
-            timelist = gettime(timestring);
+            timelisttemp = gettime(timestring);
+            timelist = getTodayTime(timelisttemp);
             availabilitylist = getAvailability();
         } catch (ParseException e) {
             e.printStackTrace();
@@ -159,14 +159,34 @@ public class AppointmentBooking extends AppCompatActivity {
 
             @Override
             public void onDateSelected(Calendar date, int position) {
+                Calendar cal = Calendar.getInstance();
+                defaultdate = (dateFormat.format(cal.getTime()));
                 finaldate = (dateFormat.format(date.getTime()));
+                if(defaultdate.equals(finaldate))
+                {
+                    //get availability list when date is default(i.e today's date)
+                    try {
+                        timelisttemp = gettime(timestring);
+                        timelist = getTodayTime(timelisttemp);
+                        availabilitylist = getAvailability();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else
+                {
+                    //when other date is selected
+                    try {
+                        timelist = gettime(timestring);
+                        availabilitylist = getAvailability();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
                 updateView(totalseats, shopname, gridLayoutManager);
             }
         });
 
-
-        //epic Dialog
-        epicDialog = new Dialog(this);
 
 
 
@@ -177,96 +197,23 @@ public class AppointmentBooking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                BookingConfirmedCustomDialog cdd = new BookingConfirmedCustomDialog(AppointmentBooking.this,shopname,finaldate,totalseats,customername,customernumber,uid,shopuid);
-                cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                cdd.show();
-                /*if(Common.CurrentTime != null) {
-                    mref2 = FirebaseDatabase.getInstance().getReference("APPOINTMENTS").child(shopname).child(finaldate);
-                    mref2.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            int i;
-                            for (i = 1; i <= Integer.parseInt(totalseats); i++) {
-                                final String myUserinfo = "Appointment" + i + " " + Common.CurrentTime;
-                                if (!(dataSnapshot.hasChild(myUserinfo))) {
-                                    //booking Id
-                                    mref4.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            // This method is called once with the initial value and again
-                                           bookingId = dataSnapshot.getValue(Integer.class);
-                                            bookingId++;
-                                            updateBookingId(bookingId);
-                                            final AppointmentInfo appointmentInfo = new AppointmentInfo(customername, Common.CurrentTime, customernumber,uid,bookingId,myUserinfo);
-                                            final int finalBookingId = bookingId;
-                                            userData.child(shopname).child(finaldate).child(myUserinfo).setValue(appointmentInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        mref.child("UpcomingAppointment").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                            @Override
-                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                               // int j=1;
-                                                               // while(dataSnapshot.hasChild("Appointment"+j))  "Appointment"+j
-                                                              // {
-                                                              //      j++;
-                                                              //  }
-                                                                BookedAppointmentInfo bookedAppointmentInfo = new BookedAppointmentInfo(finaldate,Common.CurrentTime,shopuid,myUserinfo,finalBookingId);
-                                                                mref.child("UpcomingAppointment").child(String.valueOf(bookingId)).setValue(bookedAppointmentInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                    @Override
-                                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                                        if (task.isSuccessful())
-                                                                        {
-                                                                            Toast.makeText(AppointmentBooking.this, "Appointment Booked", Toast.LENGTH_LONG).show();
-                                                                            successDialog();
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            userData.child(shopname).child(finaldate).child(myUserinfo).removeValue();
-                                                                            Toast.makeText(AppointmentBooking.this, "Something Went Wrong", Toast.LENGTH_LONG).show();
+                if(Common.CurrentTime != null) {
+                    if (Common.CurrentAvaliability == 0) {
 
-                                                                        }
-
-                                                                    }
-                                                                });
-                                                            }
-
-                                                            @Override
-                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                            }
-                                                        });
-                                                    } else {
-                                                        Toast.makeText(AppointmentBooking.this, "Something Went Wrong", Toast.LENGTH_LONG).show();
-                                                    }
-                                                }
-
-                                            });
-                                        }
-
-                                        @Override
-                                        public void onCancelled(DatabaseError error) {
-                                            // Failed to read value
-                                        }
-                                    });
-
-                                    break;
-                                }
-
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
+                        BookingConfirmedCustomDialog cdd = new BookingConfirmedCustomDialog(AppointmentBooking.this, shopname, finaldate, totalseats, customername, customernumber, uid, shopuid ,shoptype);
+                        cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        cdd.show();
+                    }
+                    else
+                    {
+                        Toast.makeText(AppointmentBooking.this,"Slot is Full",Toast.LENGTH_LONG).show();
+                    }
                 }
                 else
                 {
                     Toast.makeText(AppointmentBooking.this,"Select a Time",Toast.LENGTH_LONG).show();
-                }*/
+                }
+
 
             }
         });
@@ -275,45 +222,33 @@ public class AppointmentBooking extends AppCompatActivity {
     }
 
 
-
-    private void updateBookingId(int bookingId)
-    {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("BOOKINGID");
-
-        myRef.setValue(bookingId);
-    }
-
-
-    //On Success Dialog Box
-    private void successDialog()
-    {
-    epicDialog.setContentView(R.layout.dialogcustom);
-    success = (Button) epicDialog.findViewById(R.id.okdialogbutton);
-    success.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            epicDialog.dismiss();
-            Intent intent = new Intent(AppointmentBooking.this, MenuPage.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+    //function to get today's time
+    private List<String> getTodayTime(List<String> timelist) throws ParseException {
+        int i=0;
+        DateFormat df = new SimpleDateFormat("hh:mm aa");
+         List<String> templists2= new ArrayList<>();
+        Calendar cal2 = Calendar.getInstance();
+        for (i=0;i<timelist.size();i++)
+        {
+            Date date1 = df.parse(timelist.get(i));
+            Date date2 = df.parse(df.format(cal2.getTime()));
+            if(date1.after(date2))
+            {
+                templists2.add(timelist.get(i));
+            }
         }
-    });
-    epicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-    epicDialog.show();
+        return  templists2;
     }
 
 
-
-
-
+    //update timings on date change or when slots are booked
     private void updateView(final String totalseats, String shopname, final RecyclerView.LayoutManager gridLayoutManager) {
         //Check Availability
         //Progress Dialog
         progressDialog = new ProgressDialog(AppointmentBooking.this);
         progressDialog.setMessage("Loading..!!!");
         progressDialog.show();
-        DatabaseReference mref1 = FirebaseDatabase.getInstance().getReference("APPOINTMENTS").child(shopname);
+        DatabaseReference mref1 = FirebaseDatabase.getInstance().getReference("APPOINTMENTS").child(shoptype).child(shopname);
         mref1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -334,6 +269,9 @@ public class AppointmentBooking extends AppCompatActivity {
                         availabilitylist.set(i, "Available");
                     }
                 }
+                Log.d("list", availabilitylist.toString());
+
+
                 //Time slot adapter settings
                 adapter = (RecyclerView.Adapter) new Adaptar(timelist,availabilitylist,AppointmentBooking.this);
                 datalist.setLayoutManager(gridLayoutManager);
@@ -366,18 +304,19 @@ public class AppointmentBooking extends AppCompatActivity {
 
 
 
+    //get today's time according to time
+
+
 
     //function to add time in list
     private List<String> gettime(String timestring1) throws ParseException {
         String t1,t2,m1,m2,ap1,ap2;
-        char t1temp1,t1temp2;
-        int i;
         List<String> templists = new ArrayList<>();
          String timestring = timestring1.replace(" ", "");
         t1 =timestring.substring(0,2);
         m1 = timestring.substring(3,5);
         t2 = timestring.substring(9,11);
-        m2 = timestring.substring(13,14);
+        m2 = timestring.substring(12,14);
         ap1 = timestring.substring(5,7);
         ap2 = timestring.substring(14);
 
@@ -395,7 +334,7 @@ public class AppointmentBooking extends AppCompatActivity {
             templists.add(df.format(cal.getTime()));
             cal.add(Calendar.MINUTE, 30);
         }
-        templists.add(df.format(cal.getTime()));
+
         return templists;
         }
 

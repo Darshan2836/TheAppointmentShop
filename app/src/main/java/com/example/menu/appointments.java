@@ -41,9 +41,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class appointments extends Fragment {
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView,recyclerView2;
     private DatabaseReference ref;
     private ArrayList<BookedUserInfo> arrayList;
     private FirebaseRecyclerOptions<BookedUserInfo> options;
@@ -91,10 +92,27 @@ public class appointments extends Fragment {
         ref = FirebaseDatabase.getInstance().getReference().child("USER").child(uid).child("UpcomingAppointment");
         ref.keepSynced(true);
 
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() == 0)
+                {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyview.setVisibility(View.VISIBLE);
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         //recycler view
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
+
 
         //array list
         arrayList = new ArrayList<BookedUserInfo>();
@@ -111,6 +129,7 @@ public class appointments extends Fragment {
                 final String datedata = model.getDate();
                 final String timedata = model.getTime();
                 final int bookingiddata = model.getBookingid();
+                final String shoptype = model.getShoptype();
 
                 Date initDate = null;
                 try {
@@ -124,9 +143,8 @@ public class appointments extends Fragment {
                 holder.date.setText(parsedDate);
                 holder.id.setText(String.valueOf(bookingiddata));
 
-
                 final String shopuid = model.getShopuid();
-                DatabaseReference myRef =FirebaseDatabase.getInstance().getReference().child("SHOP").child(shopuid);
+                DatabaseReference myRef =FirebaseDatabase.getInstance().getReference().child("SHOP").child(shoptype).child(shopuid);
                 myRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -152,6 +170,7 @@ public class appointments extends Fragment {
                         intent.putExtra("datetext",datedata);
                         intent.putExtra("uidtext",shopuid);
                         intent.putExtra("appointmentinfotext",model.getAppointmentinfo());
+                        intent.putExtra("shoptype",shoptype);
                         startActivity(intent);
                     }
                 });
@@ -163,11 +182,8 @@ public class appointments extends Fragment {
                 return new FireBaseViewHolderUpcomingAppointment(LayoutInflater.from(getActivity()).inflate(R.layout.cardview_appointment,parent,false));
             }
         };
-
-
-
-
         recyclerView.setAdapter(adapter);
+
 
         return  RootView;
     }

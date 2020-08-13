@@ -34,10 +34,10 @@ public class BookingConfirmedCustomDialog extends Dialog implements
     private DatabaseReference mref2,mref4,userData,mref;
     private Dialog epicDialog;
     private Button success;
-    private String shopname,finaldate,totalseats,customername,customernumber,uid,shopuid;
+    private String shopname,finaldate,totalseats,customername,customernumber,uid,shopuid,shoptype;
     private ProgressDialog progressDialog;
 
-    public BookingConfirmedCustomDialog(Activity a, String shopname, String finaldate, String totalseats, String customername, String customernumber, String uid, String shopuid) {
+    public BookingConfirmedCustomDialog(Activity a, String shopname, String finaldate, String totalseats, String customername, String customernumber, String uid, String shopuid,String shoptype) {
         super(a);
         // TODO Auto-generated constructor stub
         this.c = a;
@@ -48,6 +48,7 @@ public class BookingConfirmedCustomDialog extends Dialog implements
         this.customernumber = customernumber;
         this.uid = uid;
         this.shopuid = shopuid;
+        this.shoptype = shoptype;
     }
 
     @Override
@@ -62,7 +63,7 @@ public class BookingConfirmedCustomDialog extends Dialog implements
 
         //database reference
         mref4 = FirebaseDatabase.getInstance().getReference("BOOKINGID");
-        userData = FirebaseDatabase.getInstance().getReference("APPOINTMENTS");
+        userData = FirebaseDatabase.getInstance().getReference("APPOINTMENTS").child(shoptype);
         mref = FirebaseDatabase.getInstance().getReference("USER").child(uid);
 
         //epic Dialog
@@ -80,8 +81,7 @@ public class BookingConfirmedCustomDialog extends Dialog implements
             case R.id.btn_yes:
                 dismiss();
                 progressDialog.show();
-                if(Common.CurrentTime != null) {
-                    mref2 = FirebaseDatabase.getInstance().getReference("APPOINTMENTS").child(shopname).child(finaldate);
+                    mref2 = FirebaseDatabase.getInstance().getReference("APPOINTMENTS").child(shoptype).child(shopname).child(finaldate);
                     mref2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -106,12 +106,13 @@ public class BookingConfirmedCustomDialog extends Dialog implements
                                                         mref.child("UpcomingAppointment").addListenerForSingleValueEvent(new ValueEventListener() {
                                                             @Override
                                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                                BookedAppointmentInfo bookedAppointmentInfo = new BookedAppointmentInfo(finaldate,Common.CurrentTime,shopuid,myUserinfo,finalBookingId);
+                                                                BookedAppointmentInfo bookedAppointmentInfo = new BookedAppointmentInfo(finaldate,Common.CurrentTime,shopuid,myUserinfo,finalBookingId,shoptype);
                                                                 mref.child("UpcomingAppointment").child(String.valueOf(finalBookingId)).setValue(bookedAppointmentInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                     @Override
                                                                     public void onComplete(@NonNull Task<Void> task) {
                                                                         if (task.isSuccessful())
                                                                         {
+                                                                            Common.CurrentTime = null;
                                                                             Toast.makeText(c, "Appointment Booked", Toast.LENGTH_LONG).show();
                                                                             progressDialog.dismiss();
                                                                             successDialog();
@@ -158,11 +159,7 @@ public class BookingConfirmedCustomDialog extends Dialog implements
 
                         }
                     });
-                }
-                else
-                {
-                    Toast.makeText(c,"Select a Time",Toast.LENGTH_LONG).show();
-                }
+
                 break;
             case R.id.btn_no:
                 dismiss();

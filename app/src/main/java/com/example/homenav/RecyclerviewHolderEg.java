@@ -54,6 +54,7 @@ public class RecyclerviewHolderEg extends AppCompatActivity {
                 intent.putExtra("seat",seatdata);
                 intent.putExtra("shopuid",uiddata);
                 intent.putExtra("nameshop",shopnamedata);
+                intent.putExtra("shoptype",bundle.getString("shoptype"));
                 startActivity(intent);
 
             }

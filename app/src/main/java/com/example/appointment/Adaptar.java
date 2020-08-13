@@ -36,19 +36,31 @@ public class Adaptar extends RecyclerView.Adapter<Adaptar.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull Adaptar.ViewHolder holder, final int position) {
 
+
         holder.availability.setText(availabilitylist.get(position));
         holder.time.setText(timelist.get(position));
-        if(availabilitylist.get(position) == "Full")
+        if(availabilitylist.get(position).equals("Full"))
         {
             holder.linear.setBackgroundColor(Color.parseColor("#CFCFCF"));
-           // holder.linear.setAlpha((float) 0.4);
+        }
+        else
+        {
+            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
         }
         if(selectedPosition==position) {
             Common.CurrentTime = timelist.get(position);
+            if(availabilitylist.get(position).equals("Full"))
+            {
+                Common.CurrentAvaliability = 1;
+            }
+            else
+            {
+                Common.CurrentAvaliability = 0;
+                holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+            }
             holder.itemView.setBackgroundColor(Color.parseColor("#F3CA20"));
         }
-        else
-            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

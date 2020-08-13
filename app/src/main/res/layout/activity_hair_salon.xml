@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.menu.HairSalon">
+   <androidx.appcompat.widget.Toolbar
+       android:id="@+id/toolbarshop"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/black">
+      <!--linear2-->
+      <LinearLayout
+          android:id="@+id/linearlayout2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:visibility="gone"
+          android:background="@drawable/searchbox2"
+          android:orientation="horizontal">
+
+         <EditText
+             android:id="@+id/search_bar"
+             android:layout_width="280dp"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="20dp"
+             android:hint="Locality"
+             android:textColor="@color/white"
+             android:textColorHint="#E7E7E7"></EditText>
+
+         <ImageView
+             android:id="@+id/close_img"
+             android:layout_marginLeft="30dp"
+             android:src="@drawable/close_vector"
+             android:layout_marginTop="11dp"
+             android:layout_width="30dp"
+             android:layout_height="30dp">
+         </ImageView>
+      </LinearLayout>
+      <!--linear1-->
+      <LinearLayout
+          android:id="@+id/linearlayout1"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:background="@drawable/searchbox"
+          android:gravity="right">
+
+         <ImageView
+             android:id="@+id/search_icon"
+             android:layout_marginTop="10dp"
+             android:layout_width="30dp"
+             android:layout_height="30dp"
+             android:layout_marginRight="15dp"
+            android:src="@drawable/saerch_vector">
+         </ImageView>
+      </LinearLayout>
+   </androidx.appcompat.widget.Toolbar>
+   <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/recyclerviewshop"
+       android:background="#E7E7E7"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_below="@+id/toolbarshop">
+   </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="80dp"
-    android:background="@color/white"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:background="@drawable/rectangle5"
     android:orientation="vertical" >
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_margin="10dp"
         android:text="Do you want to confirm this appointment ?"
         android:textColor="@color/black"
-        android:textSize="15dp"
+        android:textSize="14dp"
         android:textStyle="bold" />
 
 
@@ -21,6 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:orientation="horizontal" >
 
         <Button

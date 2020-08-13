@@ -20,10 +20,10 @@ public class CustomDialogClass extends Dialog implements
     public Activity c;
     public Dialog d;
     public Button yes, no;
-    public String shopname,date,appointmentinfo,customeruid,bookingid;
+    public String shopname,date,appointmentinfo,customeruid,bookingid,shoptype;
     public ProgressDialog progressDialog;
 
-    public CustomDialogClass(Activity a,String bookingid,String shopname,String customeruid,String date,String appointmentinfo) {
+    public CustomDialogClass(Activity a,String bookingid,String shopname,String customeruid,String date,String appointmentinfo,String shoptype) {
         super(a);
         // TODO Auto-generated constructor stub
         this.c = a;
@@ -32,6 +32,7 @@ public class CustomDialogClass extends Dialog implements
         this.customeruid = customeruid;
         this.date =date;
         this.appointmentinfo =appointmentinfo;
+        this.shoptype = shoptype;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class CustomDialogClass extends Dialog implements
             case R.id.btn_yes:
                 dismiss();
                 progressDialog.show();
-                DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("APPOINTMENTS").child(shopname).child(date).child(appointmentinfo);
+                DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("APPOINTMENTS").child(shoptype).child(shopname).child(date).child(appointmentinfo);
                 mref.removeValue();
                 DatabaseReference mref1 = FirebaseDatabase.getInstance().getReference().child("USER").child(customeruid).child("UpcomingAppointment").child(bookingid);
                 mref1.removeValue();

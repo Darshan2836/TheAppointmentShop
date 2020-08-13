@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appointment.Common;
 import com.example.menu.MenuPage;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -219,18 +220,15 @@ public class LoginPage extends AppCompatActivity {
                         pdialog.dismiss();
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(LoginPage.this,"Successfully Signed In",Toast.LENGTH_LONG).show();
+                            //Toast.makeText(LoginPage.this,"Successfully Signed In",Toast.LENGTH_LONG).show();
                             FirebaseUser user = mAuth.getCurrentUser();
                             createaccount(user);
-                            Intent n =new Intent(LoginPage.this,MenuPage.class);
-                            n.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(n);
-
-                           // updateUI(user);
+                            checkMobileNumber(user);
+                            // updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginPage.this,"Something went wrong..!!",Toast.LENGTH_LONG).show();
-                           // updateUI(null);
+                            // updateUI(null);
                         }
 
 
@@ -238,13 +236,45 @@ public class LoginPage extends AppCompatActivity {
                 });
     }
 
+    private void checkMobileNumber(FirebaseUser user) {
+
+        final String uid = user.getUid();
+        DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("USER").child(uid);
+        mref.child("mobile").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() == null)
+                {
+                    Common.GoogleVerification = 1;
+                    Common.GoogleUid = uid;
+                    Intent n =new Intent(LoginPage.this,PhoneNumber.class);
+                    n.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(n);
+
+                }
+                else
+                {
+                    Toast.makeText(LoginPage.this,"Authentication successful",Toast.LENGTH_LONG).show();
+                    Intent n =new Intent(LoginPage.this,MenuPage.class);
+                    n.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(n);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
     private void createaccount(final FirebaseUser user) {
 
 
         //get email from current user
         final String s = user.getEmail();
         final String name = user.getDisplayName();
-        final String phoneNumber = user.getPhoneNumber();
 
 
 
@@ -262,8 +292,8 @@ public class LoginPage extends AppCompatActivity {
                         }
                         else
                         {
-                            String uid = user.getUid();                                      //Get User Id
-                            UserInfo userInfo = new UserInfo(name, s, phoneNumber, null);           //Created object of UserInfo
+                            String uid = user.getUid();                          //Get User Id
+                            UserInfo userInfo = new UserInfo(name, s);           //Created object of UserInfo
                             userData.child(uid).setValue(userInfo);
                         }
                     }
@@ -296,11 +326,11 @@ public class LoginPage extends AppCompatActivity {
 
 
                         } else
-                            {
+                        {
                             String error = task.getException().getMessage();
-                           Toast.makeText(LoginPage.this, error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginPage.this, error, Toast.LENGTH_SHORT).show();
 
-                             }
+                        }
 
                     }
                 });

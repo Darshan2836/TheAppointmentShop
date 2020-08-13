@@ -69,14 +69,30 @@
         android:fontFamily="@font/opensanssemibold"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/relativelayoutview2"
+                android:layout_below="@id/previousappointments">
+                <TextView
+                    android:id="@+id/empty_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="30dp"
+                    android:visibility="gone"
+                    android:background="#E7E7E7"
+                    android:paddingBottom="30dp"
+                    android:text="---------No Previous Appointments---------"
+                    android:gravity="center">
+                </TextView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclepreviousappointment"
+                    android:layout_width="match_parent"
+                    android:background="#E7E7E7"
+                    android:layout_height="match_parent">
+                </androidx.recyclerview.widget.RecyclerView>
+            </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclepreviousappointment"
-        android:layout_width="match_parent"
-        android:background="#E7E7E7"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/previousappointments">
-    </androidx.recyclerview.widget.RecyclerView>
         </RelativeLayout>
 
     </androidx.core.widget.NestedScrollView>

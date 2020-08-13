@@ -43,6 +43,8 @@ public class AppointmentBill extends AppCompatActivity {
     private String datetext;
     private String bookingidtext,shopuid,timetext,customeruid,appointmentinfo;
     private ProgressDialog progressDialog;
+    private String shoptype;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,10 +89,11 @@ public class AppointmentBill extends AppCompatActivity {
         timetext = bundle.getString("timetext");
         bookingidtext = bundle.getString("bookingid");
         appointmentinfo = bundle.getString("appointmentinfotext");
+        shoptype = bundle.getString("shoptype");
 
 
 
-        DatabaseReference myRef =FirebaseDatabase.getInstance().getReference().child("SHOP").child(shopuid);
+        DatabaseReference myRef =FirebaseDatabase.getInstance().getReference().child("SHOP").child(shoptype).child(shopuid);
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -125,7 +128,7 @@ public class AppointmentBill extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CustomDialogClass cdd = new CustomDialogClass(AppointmentBill.this,bookingidtext,shopnametext,customeruid,datetext,appointmentinfo);
+                CustomDialogClass cdd = new CustomDialogClass(AppointmentBill.this,bookingidtext,shopnametext,customeruid,datetext,appointmentinfo,shoptype);
                 cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 cdd.show();
 

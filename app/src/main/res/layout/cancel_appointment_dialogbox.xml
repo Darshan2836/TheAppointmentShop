@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="30dp"
-    android:paddingBottom="30dp"
+    android:paddingTop="10dp"
     android:background="@drawable/rectangle5"
     android:orientation="vertical" >
 
@@ -13,11 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:fontFamily="@font/opensansbold"
-        android:text="Do you want to cancel this Appointment ?"
+        android:text="Do you want to cancel this appointment ?"
         android:textColor="@color/black"
-        android:textSize="15dp"
-        android:textStyle="bold"/>
+        android:textSize="14dp"
+        android:textStyle="bold" />
 
 
     <LinearLayout
@@ -25,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:orientation="horizontal" >
 
         <Button
