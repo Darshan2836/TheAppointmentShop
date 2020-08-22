@@ -45,15 +45,15 @@ import java.util.Objects;
 
 public class appointments extends Fragment {
     private RecyclerView recyclerView,recyclerView2;
-    private DatabaseReference ref;
-    private ArrayList<BookedUserInfo> arrayList;
-    private FirebaseRecyclerOptions<BookedUserInfo> options;
+    private DatabaseReference ref,ref1;
+    private ArrayList<BookedUserInfo> arrayList,arrayList2;
+    private FirebaseRecyclerOptions<BookedUserInfo> options,options2;
     private FirebaseAuth mAuth;
     private String uid;
     private FirebaseRecyclerAdapter<BookedUserInfo, FireBaseViewHolderUpcomingAppointment> adapter;
     private String shopname;
     private ProgressDialog progressDialog;
-    private TextView emptyview;
+    private TextView emptyview,emptyview2;
     @Override
     public void onStart() {
         super.onStart();
@@ -74,6 +74,8 @@ public class appointments extends Fragment {
 
         //find view by ID
         recyclerView = (RecyclerView) RootView.findViewById(R.id.recycleupcomingappointment);
+        recyclerView2 = RootView.findViewById(R.id.recyclepreviousappointment);
+        emptyview2 = (TextView) RootView.findViewById(R.id.empty_view2);
         emptyview = (TextView) RootView.findViewById(R.id.empty_view);
 
 
@@ -90,8 +92,11 @@ public class appointments extends Fragment {
         progressDialog.show();
         //database refrence
         ref = FirebaseDatabase.getInstance().getReference().child("USER").child(uid).child("UpcomingAppointment");
+        ref1 = FirebaseDatabase.getInstance().getReference().child("USER").child(uid).child("PreviousAppointmnts");
+        ref1.keepSynced(true);
         ref.keepSynced(true);
 
+        // To find if Upcoming Appointments are empty
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -108,16 +113,41 @@ public class appointments extends Fragment {
 
             }
         });
+
+
+        // To find if Previous Appointments are empty
+        ref1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() == 0)
+                {
+                    recyclerView2.setVisibility(View.GONE);
+                    emptyview2.setVisibility(View.VISIBLE);
+                    progressDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
         //recycler view
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(llm);
+        recyclerView2.setLayoutManager(llm);
 
 
         //array list
         arrayList = new ArrayList<BookedUserInfo>();
         options = new FirebaseRecyclerOptions.Builder<BookedUserInfo>().setQuery(ref,BookedUserInfo.class).build();
 
+        //array list for previous appointments
+        arrayList2 = new ArrayList<BookedUserInfo>();
+        options2 = new FirebaseRecyclerOptions.Builder<BookedUserInfo>().setQuery(ref,BookedUserInfo.class).build();
 
 
         //adapter
