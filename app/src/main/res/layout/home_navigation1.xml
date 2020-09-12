@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/black"
+        android:title="THE APPOINTMENT SHOP"
+        android:titleTextColor="@color/white">
+    </Toolbar>
+    <ScrollView
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/text"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/opensansbold"
+        android:text="Categories"
+        android:textColor="@color/black"
+        android:textAllCaps="true"
+        android:padding="10dp"
+        android:textSize="30sp" />
+
+    <RelativeLayout
+        android:id="@+id/button99"
+        android:layout_below="@id/text"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="190dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/bg"
+            android:layout_margin="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hair Salon"
+                android:textSize="35sp"
+                android:fontFamily="@font/bellerose"
+                android:padding="25dp"/>
+
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="-50dp"
+
+            android:src="@drawable/boy" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/button100"
+        android:layout_below="@id/button99"
+        android:layout_width="match_parent"
+        android:layout_height="190dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/yellow"
+            android:layout_margin="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Beauty Parlour"
+                android:textSize="35sp"
+                android:layout_alignParentRight="true"
+                android:fontFamily="@font/bellerose"
+                android:padding="25dp"/>
+
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="149dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="0dp"
+
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:src="@drawable/girl" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/button101"
+        android:layout_below="@id/button100"
+        android:layout_width="match_parent"
+        android:layout_height="190dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/black"
+            android:layout_margin="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hospitals"
+                android:textSize="35sp"
+                android:textColor="#fff"
+                android:fontFamily="@font/opensanssemibold"
+                android:padding="25dp"/>
+
+
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="-50dp"
+
+            android:src="@drawable/hospital_image" />
+
+
+    </RelativeLayout>
+</RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

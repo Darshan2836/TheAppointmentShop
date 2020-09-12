@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appointment.Adaptar;
 import com.example.appointmentnav.AppointmentBill;
+import com.example.appointmentnav.AppointmentCompletedBill;
 import com.example.appointmentnav.BookedUserInfo;
 import com.example.appointmentnav.FireBaseViewHolderPreviousAppointment;
 import com.example.appointmentnav.FireBaseViewHolderUpcomingAppointment;
@@ -261,6 +262,18 @@ public class appointments extends Fragment {
                     }
                 });
                 progressDialog.dismiss();
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), AppointmentCompletedBill.class);
+                        intent.putExtra("bookingid",bookingid);
+                        intent.putExtra("timetext", timedata);
+                        intent.putExtra("datetext", datedata);
+                        intent.putExtra("uidtext", shopuid);
+                        intent.putExtra("shoptype", shoptype);
+                        startActivity(intent);
+                    }
+                });
 
             }
 

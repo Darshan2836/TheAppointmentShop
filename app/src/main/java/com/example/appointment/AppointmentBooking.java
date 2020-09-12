@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appointmentnav.AppointmentBill;
@@ -62,6 +63,7 @@ public class AppointmentBooking extends AppCompatActivity {
     private String shoptype;
     private int i,j;
     private ProgressDialog progressDialog;
+    private TextView noappo;
 
 
     @Override
@@ -72,6 +74,7 @@ public class AppointmentBooking extends AppCompatActivity {
          //find view by ID
         datalist = (RecyclerView) findViewById(R.id.recyclerviewbook);
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        noappo = findViewById(R.id.timeover);
 
 
 
@@ -248,44 +251,52 @@ public class AppointmentBooking extends AppCompatActivity {
         progressDialog = new ProgressDialog(AppointmentBooking.this);
         progressDialog.setMessage("Loading..!!!");
         progressDialog.show();
-        DatabaseReference mref1 = FirebaseDatabase.getInstance().getReference("APPOINTMENTS").child(shoptype).child(shopname);
-        mref1.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (i = 0; i < timelist.size(); i++) {
-                    final String temptime = timelist.get(i);
-                    int x = 0;
-                    for (j = 1; j <= Integer.parseInt(totalseats); j++) {
-                        final String myUserinfo = "Appointment" + j + " " + temptime;
-                        if (snapshot.child(finaldate).hasChild(myUserinfo)) {
-                            x++;
+        if (timelist.size() == 0)
+        {
+            noappo.setVisibility(View.VISIBLE);
+            datalist.setVisibility(View.GONE);
+            progressDialog.dismiss();
+        }
+        else {
+            noappo.setVisibility(View.GONE);
+            datalist.setVisibility(View.VISIBLE);
+            DatabaseReference mref1 = FirebaseDatabase.getInstance().getReference("APPOINTMENTS").child(shoptype).child(shopname);
+            mref1.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    for (i = 0; i < timelist.size(); i++) {
+                        final String temptime = timelist.get(i);
+                        int x = 0;
+                        for (j = 1; j <= Integer.parseInt(totalseats); j++) {
+                            final String myUserinfo = "Appointment" + j + " " + temptime;
+                            if (snapshot.child(finaldate).hasChild(myUserinfo)) {
+                                x++;
+                            }
+                        }
+                        if (x == Integer.parseInt(totalseats)) {
+                            availabilitylist.set(i, "Full");
+                        } else {
+                            availabilitylist.set(i, "Available");
                         }
                     }
-                    if (x == Integer.parseInt(totalseats)) {
-                        availabilitylist.set(i,"Full");
-                    }
-                    else
-                    {
-                        availabilitylist.set(i, "Available");
-                    }
+                    Log.d("list", availabilitylist.toString());
+
+
+                    //Time slot adapter settings
+                    adapter = (RecyclerView.Adapter) new Adaptar(timelist, availabilitylist, AppointmentBooking.this);
+                    datalist.setLayoutManager(gridLayoutManager);
+                    datalist.setAdapter((RecyclerView.Adapter) adapter);
+                    progressDialog.dismiss();
                 }
-                Log.d("list", availabilitylist.toString());
 
 
-                //Time slot adapter settings
-                adapter = (RecyclerView.Adapter) new Adaptar(timelist,availabilitylist,AppointmentBooking.this);
-                datalist.setLayoutManager(gridLayoutManager);
-                datalist.setAdapter((RecyclerView.Adapter) adapter);
-                progressDialog.dismiss();
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-        });
+            });
+        }
     }
 
 

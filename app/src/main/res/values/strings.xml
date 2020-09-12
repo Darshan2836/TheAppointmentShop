@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Login</string>
+    <string name="app_name">Appointment App</string>
     <string name="welcome">Welcome!</string>
     <string name="welcome_text2">Nice to see you again!</string>
     <string name="login_button">Login</string>

@@ -22,13 +22,27 @@
         app:selectorColor="@color/white"
         android:layout_below="@+id/babertoolappointmentbooking"
         android:layout_centerHorizontal="true"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="30dp"
-        android:id="@+id/recyclerviewbook"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/calendarView">
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="30dp"
+            android:id="@+id/recyclerviewbook"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+        <TextView
+            android:id="@+id/timeover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time's Up ! No Appointments Today"
+            android:textSize="18dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+        </TextView>
+    </RelativeLayout>
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

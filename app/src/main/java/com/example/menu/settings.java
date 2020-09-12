@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,7 @@ import static androidx.core.content.ContextCompat.getSystemService;
 public class settings extends Fragment {
 
     private Button mbutton;
+    private LinearLayout buttonsignout;
     private FirebaseAuth mAuth;
 
     @Nullable
@@ -37,15 +39,15 @@ public class settings extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View RootView = inflater.inflate(R.layout.settings_navigation, container, false);
+        View RootView = inflater.inflate(R.layout.settings_navigation1, container, false);
         //find view by id
-        mbutton = (Button) RootView.findViewById(R.id.buttonsignout);
+        buttonsignout =  RootView.findViewById(R.id.linearlayoutsignout);
 
         //get instance
         mAuth = FirebaseAuth.getInstance();
 
         //on signout button click
-        mbutton.setOnClickListener(new View.OnClickListener() {
+        buttonsignout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isNetworkAvailable()) {

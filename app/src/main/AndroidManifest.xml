@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +16,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.menu.HairSalon"></activity>
+        <activity android:name="com.example.appointmentnav.AppointmentCompletedBill"></activity>
+        <activity android:name="com.example.menu.HairSalon" />
         <activity android:name="com.example.appointmentnav.AppointmentBill" />
         <activity android:name="com.example.appointment.AppointmentBooking" />
         <activity android:name="com.example.homenav.RecyclerviewHolderEg" />

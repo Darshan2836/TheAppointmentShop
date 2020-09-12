@@ -37,7 +37,7 @@ public class AppointmentBill extends AppCompatActivity {
     private Bundle bundle;
     private TextView shopname,address,time,date,bookingid;
     private ImageView shopimage;
-    private Button cancel;
+    private Button cancel,getdirection;
     private String shopnametext,shopaddresstext,shopimagetext;
     private Date datedate;
     private String datetext;
@@ -74,6 +74,7 @@ public class AppointmentBill extends AppCompatActivity {
         bookingid = (TextView) findViewById(R.id.billbookingid);
         shopimage = (ImageView) findViewById(R.id.billimage);
         cancel = (Button) findViewById(R.id.cancelappointment);
+        getdirection = findViewById(R.id.getdirection);
 
 
         //customeruid
@@ -125,6 +126,12 @@ public class AppointmentBill extends AppCompatActivity {
         date.setText(parsedDate);
 
 
+        getdirection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AppointmentBill.this,"Under Development",Toast.LENGTH_LONG).show();
+            }
+        });
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

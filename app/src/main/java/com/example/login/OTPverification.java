@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appointment.Common;
@@ -36,8 +37,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.stfalcon.smsverifycatcher.OnSmsCatchListener;
+import com.stfalcon.smsverifycatcher.SmsVerifyCatcher;
 
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class OTPverification extends AppCompatActivity {
 
@@ -53,12 +58,32 @@ public class OTPverification extends AppCompatActivity {
     private FirebaseAuth auth;
     private String verificationCode, userCode, finalnumber;
     private ProgressDialog progressDialog;
+    private TextView no;
+    private SmsVerifyCatcher smsVerifyCatcher;
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        smsVerifyCatcher.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        smsVerifyCatcher.onStop();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        smsVerifyCatcher.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_o_t_pverification);
+        setContentView(R.layout.activity_o_t_pverification1);
 
 
         //progress dialog1
@@ -87,15 +112,18 @@ public class OTPverification extends AppCompatActivity {
         //viewByID
         Textcode = (EditText) findViewById(R.id.editTextcode);
         verify = (Button) findViewById(R.id.buttonverify);
+        no = findViewById(R.id.otpnumbertext);
 
         //get number from phoneNumber
         extras = getIntent().getExtras();
         final String number = extras.getString("number");
         finalnumber = number;
+        no.setText(number);
 
 
         //verify_button visible
         Textcode.addTextChangedListener(verifyvisibility);
+        verify.addTextChangedListener(verifyvisibility);
 
 
 
@@ -106,9 +134,6 @@ public class OTPverification extends AppCompatActivity {
             //Callback function called
             @Override
             public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {   //Auto OTP verification
-                progressDialog.show();
-                Toast.makeText(OTPverification.this, "Verification Successful", Toast.LENGTH_LONG);
-                signup(phoneAuthCredential);
             }
 
             @Override
@@ -149,6 +174,26 @@ public class OTPverification extends AppCompatActivity {
 
             }
         });
+
+        //get otp automatically
+        smsVerifyCatcher = new SmsVerifyCatcher(OTPverification.this, new OnSmsCatchListener<String>() {
+            @Override
+            public void onSmsCatch(String message) {
+                String code = parseCode(message);//Parse verification code
+                Textcode.setText(code);//set code in edit text
+            }
+        });
+    }
+
+    //sms code reader
+    private String parseCode(String message) {
+        Pattern p = Pattern.compile("\\b\\d{6}\\b");
+        Matcher m = p.matcher(message);
+        String code = "";
+        while (m.find()) {
+            code = m.group(0);
+        }
+        return code;
     }
 
 
@@ -276,9 +321,12 @@ public class OTPverification extends AppCompatActivity {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (s.length() < 6) {
                 verify.setAlpha((float) 0.4);
+                verify.setEnabled(false);
+                verify.setText("ENTER OTP");
             } else {
                 verify.setAlpha(1);
                 verify.setEnabled(true);
+                verify.setText("VERIFY");
             }
         }
 

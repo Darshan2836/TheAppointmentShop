@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +34,7 @@ import java.util.ArrayList;
 
 public class home extends Fragment {
 
-private Button button,button2;
+private RelativeLayout button,button2,button3;
 
     @Override
     public void onStart() {
@@ -50,12 +52,12 @@ private Button button,button2;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View RootView = inflater.inflate(R.layout.home_navigation,container,false);
+        View RootView = inflater.inflate(R.layout.home_navigation1,container,false);
 
         //find view by ID
-        button = (Button) RootView.findViewById(R.id.button99);
-        button2 = (Button) RootView.findViewById(R.id.button100);
-
+        button =  RootView.findViewById(R.id.button99);
+        button2 =  RootView.findViewById(R.id.button100);
+        button3 = RootView.findViewById(R.id.button101);
 
 
         //salon shop on click listner
@@ -80,6 +82,12 @@ private Button button,button2;
             }
         });
 
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(),"Under Development",Toast.LENGTH_LONG).show();
+            }
+        });
         return  RootView;
     }
     //To check internet connections

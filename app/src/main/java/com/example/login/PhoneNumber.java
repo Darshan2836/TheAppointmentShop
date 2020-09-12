@@ -29,7 +29,7 @@ private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_phone_number);
+        setContentView(R.layout.activity_phone_number1);
 
         //findviewbyid
         proceed = (Button) findViewById(R.id.buttonproceed);
@@ -108,13 +108,16 @@ private ProgressDialog progressDialog;
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         String no = number.getText().toString();
-        proceed.setEnabled(no.length() == 10);
         if(no.length() == 10)
         {
+            proceed.setText("CONTINUE");
+            proceed.setEnabled(true);
             proceed.setAlpha(1);
         }
         else
         {
+            proceed.setEnabled(false);
+            proceed.setText("ENTER PHONE NUMBER");
             proceed.setAlpha((float) 0.4);
         }
         }
